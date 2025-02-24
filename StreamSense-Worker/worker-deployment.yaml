@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streamsense-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: streamsense-worker
+  template:
+    metadata:
+      labels:
+        app: streamsense-worker
+    spec:
+      containers:
+      - name: streamsense-worker
+        image: rishikesh54/streamsense-worker:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5002
+        env:
+        - name: REDIS_HOST
+          value: "redis"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: streamsense-worker-service
+spec:
+  selector:
+    app: streamsense-worker
+  ports:
+    - protocol: TCP
+      port: 5002
+      targetPort: 5002
+  type: NodePort
+

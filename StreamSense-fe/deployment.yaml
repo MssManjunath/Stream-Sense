@@ -1,0 +1,35 @@
+# Deployment for the Frontend
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streamsense-fe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: streamsense-fe
+  template:
+    metadata:
+      labels:
+        app: streamsense-fe
+    spec:
+      containers:
+      - name: streamsense-fe
+        image: rishikesh54/streamsense-fe:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+---
+# Service for the Frontend
+apiVersion: v1
+kind: Service
+metadata:
+  name: streamsense-fe-service
+spec:
+  selector:
+    app: streamsense-fe
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort

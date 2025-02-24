@@ -1,0 +1,8 @@
+node_modules
+app/__pycache__
+Lib
+Scripts
+Include
+.env
+**/__pycache__/
+**/Lib/

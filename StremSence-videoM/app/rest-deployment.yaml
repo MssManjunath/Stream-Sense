@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streamsense-vm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: streamsense-vm
+  template:
+    metadata:
+      labels:
+        app: streamsense-vm
+    spec:
+      containers:
+      - name: streamsense-vm
+        image: rishikesh54/streamsense-vm:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: REDIS_HOST
+          value: "redis"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: streamsense-vm-service
+spec:
+  selector:
+    app: streamsense-vm
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+  type: NodePort
+
